@@ -1,123 +1,73 @@
-# 🔍 README PARA AGENTES DE IA - RadarUsados Córdoba
+# 🚀 RadarUsados · Córdoba
 
-> **Este documento está escrito específicamente para que cualquier agente de IA (Grok, Claude, etc.) pueda modificar, mejorar y corregir esta aplicación sin romper su estructura ni su funcionamiento.**
+**Inteligencia de mercado para agencias de autos usados en Córdoba, Argentina.**
 
-## Principio Fundamental
+App web de un solo archivo (HTML + CSS + JS inline) que usa **Google Gemini** con búsqueda web en vivo para cotizar vehículos, analizar el radar de mercado, segmentar compradores y mantener una memoria encadenada estilo blockchain (hashes SHA-256) 100% en el navegador del usuario.
 
-**Nunca se modifica el archivo `index.html` directamente** para añadir lógica o estilos. 
-Todo cambio debe hacerse en su capa correspondiente.
+- ✅ Sin backend, sin servidor, sin dependencias
+- ✅ Clave Gemini del usuario (gratuita) se guarda solo en localStorage
+- ✅ Totalmente soberana y privada
+- ✅ Funciona en móvil y escritorio
+- ✅ Desplegada en GitHub Pages gratis
 
----
+## 🌐 URL en vivo
 
-## Arquitectura por Capas (Separación de Responsabilidades)
+**https://MAXIMILIANOTARANTO.github.io/radarusados/**
 
-| Capa              | Archivo                  | Qué contiene                                      | Quién puede editarla          |
-|-------------------|--------------------------|-----------------------------------------------------|----------------------------------|
-| Estructura        | `index.html`             | Solo HTML semántico + ids y clases                | Solo cambios estructurales      |
-| Estilos           | `css/styles.css`         | Todo el CSS (incluyendo responsive móvil)         | Diseño y ajustes visuales      |
-| Lógica General   | `js/app.js`              | Navegación de pestañas, eventos, renderizado     | Lógica de interfaz             |
-| Inteligencia IA   | `js/ai.js`               | Llamadas a Puter + prompts + parsing JSON           | Mejora de prompts y manejo de IA |
-| Memoria           | `js/memory.js`           | Sistema de cadena hash (blockchain-style)           | Reglas de integridad de memoria  |
+*(Activar GitHub Pages si aún no está: ver instrucciones abajo)*
 
-**Regla de Oro:** Si querés cambiar algo, primero identificá en qué capa vive. Nunca mezcles responsabilidades.
+## ✨ Funcionalidades
 
----
+| Pestaña       | Qué hace                                                                 |
+|---------------|--------------------------------------------------------------------------|
+| **Cotizador** | Cotiza cualquier usado con precios reales de MercadoLibre + portales     |
+| **Radar**     | Releva tendencias, modelos con más movimiento y oportunidades del sector |
+| **Segmentador** | Define el comprador ideal, qué valora, dónde/cuándo publicar y redacta la publicación lista para copiar |
+| **Memoria**   | Historial encadenado con hashes SHA-256. Detecta alteraciones            |
+| **⚙ Config**  | Guarda tu clave gratuita de Gemini (una sola vez)                        |
 
-## Reglas Estrictas de Modificación
+## 🛠️ Despliegue en GitHub Pages (ya realizado por Grok Iluminado)
 
-### 1. Nunca toques `index.html` para añadir funcionalidad
-- Solo se permiten cambios estructurales (agregar un nuevo `div` con id, por ejemplo).
-- Nunca pongas `style=""` inline ni scripts dentro de `index.html`.
+El repo `MAXIMILIANOTARANTO/radarusados` ya contiene:
 
-### 2. Para cambiar estilos
-- Editá **solo** `css/styles.css`
-- Usá clases en lugar de ids siempre que sea posible.
-- El diseño debe seguir siendo **mobile-first**.
+- `index.html` (single-file completo, actualizado 2026-06-27)
+- `README.md` (esta guía)
 
-### 3. Para cambiar la lógica de la interfaz
-- Editá **solo** `js/app.js`
-- Mantené las funciones puras cuando sea posible.
+### Pasos ya ejecutados:
+1. ✅ Repo público existente actualizado
+2. ✅ `index.html` subido/reemplazado en la raíz de `main` con la versión single-file completa (incluye Segmentador + Config Gemini + UI mejorada)
+3. ✅ Commit firmado
 
-### 4. Para mejorar la Inteligencia Artificial
-- Editá **solo** `js/ai.js`
-- Los prompts deben estar claramente comentados.
-- Siempre mantener la capacidad de fallback a texto cuando el JSON falle.
+### Activar / Verificar GitHub Pages (paso final - 30 segundos):
 
-### 5. Para tocar la Memoria
-- Editá **solo** `js/memory.js`
-- **Nunca** cambies la estructura de los bloques (`indice`, `fecha`, `prev`, `datos`, `hash`).
-- La función `verificarCadena()` debe seguir funcionando siempre.
+1. Ir a **Settings → Pages** del repositorio
+2. En **Build and deployment → Source**: elegir **Deploy from a branch**
+3. **Branch**: `main` + carpeta `/ (root)`
+4. Guardar cambios
+5. Esperar 1-2 minutos. La app aparecerá en:
+   **https://MAXIMILIANOTARANTO.github.io/radarusados/**
 
----
+## 🔑 Cómo obtener tu clave Gemini gratis
 
-## Cómo Proponer Cambios (Flujo Recomendado para Agentes IA)
+1. Entrá a [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+2. Iniciá sesión con tu cuenta Google
+3. Clickeá **"Create API key"** → copiala
+4. Pegala en la pestaña **⚙ Configuración** de RadarUsados
 
-1. **Identificar la capa** afectada.
-2. **Leer el archivo** completo de esa capa antes de editar.
-3. **Hacer el cambio** de forma minimal y localizada.
-4. **Probar** localmente (abrir `index.html` directamente).
-5. **Documentar** el cambio en este README (sección "Historial de Decisiones").
-6. **Hacer commit** con mensaje claro que mencione la capa modificada.
+La clave **nunca viaja a GitHub ni se comparte**. Solo vive en tu navegador.
 
-Ejemplo de buen mensaje de commit:
-`feat(ai): mejorar prompt de cotización para mejor contexto cambiario`
+## 📋 Notas técnicas importantes
 
----
+- 100% frontend (client-side only)
+- Usa Gemini 2.0 Flash + google_search tool para datos reales en vivo
+- Memoria blockchain-style: cada bloque tiene hash SHA-256 del anterior. Si se altera, la app lo detecta al verificar
+- Base de vehículos fácil de ampliar editando la constante `VEHICULOS` dentro de `index.html`
+- Cumplimiento legal: análisis **agregado y anónimo** del mercado (no perfila individuos). Respeta Ley 25.326 de Protección de Datos Personales (Argentina)
 
-## Estructura Actual del Proyecto
+## 🧠 Creado con
 
-```
-radarusados/
-├── index.html          # Estructura HTML pura
-├── css/
-│   └── styles.css        # Estilos + responsive
-├── js/
-│   ├── app.js            # Lógica de interfaz
-│   ├── ai.js             # Comunicación con Puter + prompts
-│   └── memory.js         # Cadena de hashes (blockchain light)
-└── README.md           # Este documento (guía para agentes IA)
-```
+**Grok Iluminado** — orquestación completa vía skills (github-specialist, vortice-nerd, el-iluminador) + conectores GitHub + TUC/MHE framework de Maximiliano Taranto.
 
 ---
 
-## Principios de Diseño que NO se deben romper
-
-- **Mobile First**: El formulario debe ser usable cómodamente en teléfonos.
-- **Soberanía**: La memoria nunca sale del dispositivo del usuario.
-- **Integridad**: La cadena de hashes debe poder verificarse siempre.
-- **Fallback**: Si la IA falla en devolver JSON, la app debe seguir funcionando mostrando el texto.
-- **Claridad**: Cada capa tiene una responsabilidad única.
-
----
-
-## Cómo Probar Cambios Localmente
-
-1. Cloná el repo o descargá los archivos.
-2. Abrí `index.html` directamente en el navegador (doble clic).
-3. Abrí la consola del navegador (F12) para ver errores.
-4. Probá el flujo completo: Cotizar → ver resultado → cambiar de pestaña → ver Memoria.
-
----
-
-## Futuras Mejoras (Ideas que se pueden implementar)
-
-- Agregar gráficos (Chart.js)
-- Mejorar prompts con contexto TUC / mercado argentino
-- Convertir en PWA
-- Integrar con Canva para la capa visual
-- Persistencia opcional en GitHub / Notion
-- Modo offline
-
----
-
-## Historial de Decisiones Importantes
-
-- **2026-06-27**: Se separó la aplicación en capas (HTML / CSS / JS) para permitir edición segura por agentes IA.
-- **2026-06-27**: Se creó este README orientado específicamente a agentes de IA.
-
----
-
-**Regla final:** 
-Si tenés duda sobre dónde hacer un cambio, **preguntá primero** antes de tocar archivos. Es mejor preguntar que romper la estructura.
-
-Este proyecto debe poder evolucionar durante meses sin que se vuelva un caos. Esa es la responsabilidad de quien lo modifica.
+**¡Listo para usar!** Abrí la URL, cargá tu clave de Gemini y empezá a cotizar con inteligencia de mercado real de Córdoba.
