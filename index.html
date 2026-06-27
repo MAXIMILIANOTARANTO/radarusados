@@ -1,75 +1,208 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RadarUsados · Córdoba</title>
-  <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RadarUsados · Córdoba</title>
+<style>
+  :root{--asfalto:#15191e;--panel:#1d232a;--linea:#2c343d;--tiza:#e8e6e0;--gris:#8d97a1;--ambar:#f0a429;--celeste:#6db3d4;--verde:#7fc97f;--rojo:#e06c5f}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--asfalto);color:var(--tiza);font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 18px 64px}
+  header{padding:26px 0 16px;border-bottom:1px solid var(--linea)}
+  .logo{font-size:25px;font-weight:800;letter-spacing:-.5px}.logo span{color:var(--ambar)}
+  .sub{color:var(--gris);font-size:13px;margin-top:4px}
+  .tabs{display:flex;gap:8px;margin:20px 0;flex-wrap:wrap}
+  .tab{background:none;border:1px solid var(--linea);color:var(--gris);padding:9px 16px;border-radius:999px;font-size:14px;cursor:pointer}
+  .tab.on{background:var(--ambar);border-color:var(--ambar);color:#15191e;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  label.l{display:block;font-size:12px;color:var(--gris);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em}
+  input,select,textarea{width:100%;background:var(--panel);border:1px solid var(--linea);color:var(--tiza);padding:10px 12px;border-radius:8px;font-size:15px;font-family:inherit}
+  .btn{margin-top:16px;background:var(--ambar);color:#15191e;border:none;padding:12px 26px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .card{background:var(--panel);border:1px solid var(--linea);border-radius:12px;padding:18px 20px;margin-top:16px}
+  .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--gris);margin-bottom:8px}
+  .precio{font-family:ui-monospace,Menlo,monospace;font-size:33px;font-weight:700;color:var(--ambar)}
+  .precio-sec{font-family:ui-monospace,monospace;color:var(--celeste);font-size:15px;margin-top:2px}
+  .banda{position:relative;height:10px;background:var(--linea);border-radius:999px;margin:22px 0 6px}
+  .banda-fill{position:absolute;inset:0;background:linear-gradient(90deg,var(--celeste),var(--ambar));border-radius:999px;opacity:.85}
+  .aguja{position:absolute;top:-5px;width:4px;height:20px;background:var(--tiza);border-radius:2px}
+  .leyenda{display:flex;justify-content:space-between;font-family:ui-monospace,monospace;font-size:12px;color:var(--gris)}
+  .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+  .alta{background:rgba(127,201,127,.15);color:var(--verde)}.media{background:rgba(240,164,41,.15);color:var(--ambar)}.baja{background:rgba(224,108,95,.15);color:var(--rojo)}
+  .item{padding:10px 0;border-bottom:1px solid var(--linea);font-size:14px;line-height:1.5}.item:last-child{border-bottom:none}.item b{color:var(--tiza)}
+  .muted{color:var(--gris)}
+  .err{color:var(--rojo);margin-top:14px;font-size:14px}
+  .load{display:flex;align-items:center;gap:10px;margin-top:18px;color:var(--gris);font-size:14px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--ambar);animation:late 1s infinite alternate}
+  @keyframes late{from{opacity:.25}to{opacity:1}}
+  .fuente{font-size:12px;color:var(--gris)}
+  .hashline{font-family:ui-monospace,monospace;font-size:11px;color:var(--gris);word-break:break-all}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .mini{font-size:13px;color:var(--celeste);background:none;border:1px solid var(--linea);padding:6px 12px;border-radius:7px;cursor:pointer}
+  .copia{background:var(--asfalto);border:1px dashed var(--linea);border-radius:8px;padding:14px;margin-top:10px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+  a{color:var(--celeste)}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo">Radar<span>Usados</span></div>
-      <div class="sub">Inteligencia de mercado para agencias · Córdoba, Argentina</div>
-    </header>
+<div class="wrap">
+  <header>
+    <div class="logo">Radar<span>Usados</span></div>
+    <div class="sub">Inteligencia de mercado para agencias · Córdoba, Argentina</div>
+  </header>
 
-    <nav class="tabs">
-      <button class="tab on" data-tab="cotizar">Cotizador</button>
-      <button class="tab" data-tab="radar">Radar</button>
-      <button class="tab" data-tab="memoria">Memoria</button>
-    </nav>
+  <nav class="tabs">
+    <button class="tab on" data-tab="cotizar">Cotizador</button>
+    <button class="tab" data-tab="radar">Radar</button>
+    <button class="tab" data-tab="segmento">Segmentador</button>
+    <button class="tab" data-tab="memoria">Memoria</button>
+    <button class="tab" data-tab="config">⚙ Configuración</button>
+  </nav>
 
-    <!-- COTIZADOR -->
-    <section id="cotizar">
-      <div class="card">
-        <div class="kicker">Vehículo a cotizar</div>
-        <div class="grid">
-          <div><label class="l">Marca</label><input id="marca" placeholder="Toyota"></div>
-          <div><label class="l">Modelo</label><input id="modelo" placeholder="Hilux"></div>
-          <div><label class="l">Versión</label><input id="version" placeholder="SRX 4x4"></div>
-          <div><label class="l">Año</label><input id="anio" placeholder="2021" inputmode="numeric"></div>
-          <div><label class="l">Kilometraje</label><input id="km" placeholder="80000" inputmode="numeric"></div>
-          <div><label class="l">Estado</label>
-            <select id="estado">
-              <option>Excelente</option>
-              <option selected>Muy bueno</option>
-              <option>Bueno</option>
-              <option>Regular</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn" id="btnCotizar">Cotizar</button>
-        <div id="cotErr" class="err" style="display:none"></div>
-        <div id="cotLoad" class="load" style="display:none"><div class="dot"></div> Analizando mercado cordobés…</div>
+  <section id="config" style="display:none">
+    <div class="card">
+      <div class="kicker">Clave de Gemini (se guarda solo en este dispositivo)</div>
+      <p class="muted" style="font-size:14px;line-height:1.6">La app usa Google Gemini con búsqueda web real. Cada usuario pone su propia clave gratuita. Conseguila en <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com/app/apikey</a> (iniciá sesión con Google → "Create API key" → copiala). Toma 2 minutos, una sola vez.</p>
+      <label class="l" style="margin-top:8px">Clave API</label>
+      <input id="apikey" type="password" placeholder="AIza..." />
+      <button class="btn" id="btnGuardar">Guardar clave</button>
+      <button class="mini" id="btnProbar" style="margin-left:8px">Probar conexión</button>
+      <div id="cfgMsg" style="margin-top:14px;font-size:14px"></div>
+    </div>
+  </section>
+
+  <section id="cotizar">
+    <div class="card">
+      <div class="kicker">Vehículo a cotizar</div>
+      <div class="grid">
+        <div><label class="l">Marca</label><select id="marca"></select></div>
+        <div><label class="l">Modelo</label><select id="modelo"></select></div>
+        <div><label class="l">Versión / motor</label><input id="version" placeholder="2.8 SRX 4x4" /></div>
+        <div><label class="l">Año</label><input id="anio" placeholder="2021" inputmode="numeric" /></div>
+        <div><label class="l">Kilometraje</label><input id="km" placeholder="80000" inputmode="numeric" /></div>
+        <div><label class="l">Estado</label><select id="estado"><option>Excelente</option><option selected>Muy bueno</option><option>Bueno</option><option>Regular</option></select></div>
       </div>
-      <div id="cotOut"></div>
-    </section>
+      <button class="btn" id="btnCotizar">Cotizar con datos en vivo</button>
+      <div id="cotErr" class="err" style="display:none"></div>
+      <div id="cotLoad" class="load" style="display:none"><div class="dot"></div> Buscando publicaciones reales en MercadoLibre, portales y concesionarias…</div>
+    </div>
+    <div id="cotOut"></div>
+  </section>
 
-    <!-- RADAR -->
-    <section id="radar" style="display:none">
-      <div class="card">
-        <div class="kicker">Radar de mercado — Córdoba</div>
-        <button class="btn" id="btnRadar">Activar Radar</button>
-        <div id="radErr" class="err" style="display:none"></div>
-        <div id="radLoad" class="load" style="display:none"><div class="dot"></div> Relevando sector…</div>
+  <section id="radar" style="display:none">
+    <div class="card">
+      <div class="kicker">Radar de mercado — Córdoba</div>
+      <p class="muted" style="font-size:14px;line-height:1.6;margin:4px 0 0">Releva el sector en vivo: tendencias, modelos con más movimiento y oportunidades agregadas. <span id="radarHora"></span></p>
+      <button class="btn" id="btnRadar">Activar radar</button>
+      <div id="radErr" class="err" style="display:none"></div>
+      <div id="radLoad" class="load" style="display:none"><div class="dot"></div> Relevando el mercado automotor…</div>
+    </div>
+    <div id="radOut"></div>
+  </section>
+
+  <section id="segmento" style="display:none">
+    <div class="card">
+      <div class="kicker">Segmentador de oportunidad</div>
+      <p class="muted" style="font-size:14px;line-height:1.6;margin:4px 0 12px">Definí el auto y la app te dice a qué segmento de comprador apuntar, qué valora, cuánto paga, dónde y cuándo publicar, y te redacta la publicación lista para copiar. Segmenta el mercado, sin perseguir personas.</p>
+      <div class="grid">
+        <div><label class="l">Marca</label><select id="sMarca"></select></div>
+        <div><label class="l">Modelo</label><select id="sModelo"></select></div>
+        <div><label class="l">Año</label><input id="sAnio" placeholder="2019" inputmode="numeric" /></div>
+        <div><label class="l">Precio venta (ARS)</label><input id="sPrecio" placeholder="18000000" inputmode="numeric" /></div>
       </div>
-      <div id="radOut"></div>
-    </section>
+      <button class="btn" id="btnSeg">Generar estrategia de segmento</button>
+      <div id="segErr" class="err" style="display:none"></div>
+      <div id="segLoad" class="load" style="display:none"><div class="dot"></div> Definiendo segmento y oportunidad…</div>
+    </div>
+    <div id="segOut"></div>
+  </section>
 
-    <!-- MEMORIA -->
-    <section id="memoria" style="display:none">
-      <div class="card">
-        <div class="row">
-          <div class="kicker" style="margin:0">Memoria encadenada</div>
-          <button class="mini" id="btnExport">Exportar</button>
-        </div>
-        <div id="memOut"></div>
-      </div>
-    </section>
-  </div>
+  <section id="memoria" style="display:none">
+    <div class="card">
+      <div class="row"><div class="kicker" style="margin:0">Memoria encadenada · historial</div><button class="mini" id="btnExport">Exportar</button></div>
+      <p class="muted" style="font-size:13px;line-height:1.55;margin:10px 0 0">Cada análisis se guarda en este dispositivo encadenado al anterior por un hash SHA-256, estilo blockchain. Si se altera un registro, la app lo detecta.</p>
+    </div>
+    <div id="memOut"></div>
+  </section>
+</div>
 
-  <script src="js/memory.js"></script>
-  <script src="js/ai.js"></script>
-  <script src="js/app.js"></script>
+<script>
+const VEHICULOS = {
+  "Toyota":["Hilux","Corolla","Corolla Cross","Etios","Yaris","SW4","RAV4","Hiace"],
+  "Volkswagen":["Amarok","Gol Trend","Polo","Virtus","Vento","Taos","Nivus","T-Cross","Suran","Saveiro"],
+  "Ford":["Ranger","Ka","Focus","Fiesta","EcoSport","Territory","Kuga","Mondeo"],
+  "Chevrolet":["Onix","Onix Plus","Cruze","Tracker","S10","Spin","Prisma","Agile","Corsa"],
+  "Fiat":["Cronos","Toro","Argo","Mobi","Pulse","Strada","Palio","Uno","500"],
+  "Renault":["Kangoo","Sandero","Logan","Duster","Stepway","Oroch","Alaskan","Captur","Kwid","Clio"],
+  "Peugeot":["208","2008","308","3008","Partner","Expert","408","207"],
+  "Honda":["HR-V","Civic","CR-V","Fit","City","WR-V"],
+  "Nissan":["Frontier","Versa","Kicks","March","Sentra","X-Trail"],
+  "Citroën":["C3","C4 Cactus","Berlingo","C-Elysée","C4 Lounge"],
+  "Jeep":["Renegade","Compass","Commander"],
+  "Otra":["(escribir en versión)"]
+};
+const $=(id)=>document.getElementById(id);
+const fmtARS=(n)=>typeof n==="number"?"$ "+n.toLocaleString("es-AR"):n;
+const KEY_API="radarusados_gemini_key";
+const getKey=()=>localStorage.getItem(KEY_API)||"";
+
+function llenarMarcas(sM,sMod){sM.innerHTML=Object.keys(VEHICULOS).map(m=>`<option>${m}</option>`).join("");const s=()=>{sMod.innerHTML=VEHICULOS[sM.value].map(x=>`<option>${x}</option>`).join("");};sM.onchange=s;s();}
+llenarMarcas($("marca"),$("modelo"));
+llenarMarcas($("sMarca"),$("sModelo"));
+$("apikey").value=getKey();
+
+document.querySelectorAll(".tab").forEach(t=>{t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));t.classList.add("on");["cotizar","radar","segmento","memoria","config"].forEach(s=>$(s).style.display="none");$(t.dataset.tab).style.display="block";if(t.dataset.tab==="memoria")renderMemoria();};});
+
+async function pedirIA(prompt,conBusqueda){
+  const key=getKey();
+  if(!key)throw new Error("Falta la clave de Gemini. Cargala en ⚙ Configuración.");
+  const body={contents:[{parts:[{text:prompt}]}]};
+  if(conBusqueda)body.tools=[{google_search:{}}];
+  const url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+encodeURIComponent(key);
+  const resp=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+  const data=await resp.json();
+  if(data.error)throw new Error(data.error.message||("HTTP "+resp.status));
+  const cand=data.candidates&&data.candidates[0];
+  const texto=cand&&cand.content&&cand.content.parts?cand.content.parts.map(p=>p.text||"").join(""):"";
+  if(!texto.trim())throw new Error("Respuesta vacía de Gemini");
+  const limpio=texto.replace(/```json|```/g,"").trim();
+  const ini=limpio.indexOf("{"),fin=limpio.lastIndexOf("}");
+  if(ini===-1||fin===-1)return{_texto:limpio};
+  try{return JSON.parse(limpio.slice(ini,fin+1));}catch(e){return{_texto:limpio.replace(/[{}\[\]"]/g," ").replace(/\s+/g," ").trim()};}
+}
+
+$("btnGuardar").onclick=()=>{localStorage.setItem(KEY_API,$("apikey").value.trim());$("cfgMsg").innerHTML='<span style="color:var(--verde)">✓ Clave guardada en este dispositivo.</span>';};
+$("btnProbar").onclick=async()=>{$("cfgMsg").textContent="Probando…";try{localStorage.setItem(KEY_API,$("apikey").value.trim());await pedirIA("Respondé solo: OK",false);$("cfgMsg").innerHTML='<span style="color:var(--verde)">✓ Conexión correcta con Gemini.</span>';}catch(e){$("cfgMsg").innerHTML='<span style="color:var(--rojo)">✗ '+(e.message||"error")+'</span>';}};
+
+const MEM_KEY="radarusados_cadena_v1";
+async function sha256(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("");}
+function leerCadena(){try{return JSON.parse(localStorage.getItem(MEM_KEY))||[]}catch(e){return[]}}
+async function agregarBloque(d){const c=leerCadena();const prev=c.length?c[c.length-1].hash:"GENESIS";const b={indice:c.length,fecha:new Date().toISOString(),prev,datos:d};b.hash=await sha256(JSON.stringify({i:b.indice,f:b.fecha,p:prev,d}));c.push(b);localStorage.setItem(MEM_KEY,JSON.stringify(c));}
+async function verificar(){const c=leerCadena();for(let i=0;i<c.length;i++){const b=c[i];const h=await sha256(JSON.stringify({i:b.indice,f:b.fecha,p:b.prev,d:b.datos}));if(h!==b.hash)return false;if(i>0&&b.prev!==c[i-1].hash)return false;}return true;}
+async function renderMemoria(){const out=$("memOut");const c=leerCadena();if(!c.length){out.innerHTML='<div class="card muted">Todavía no hay registros guardados.</div>';return;}const ok=await verificar();let html='<div class="card"><div class="kicker">Integridad</div>'+(ok?'<span class="pill alta">✓ Cadena íntegra</span>':'<span class="pill baja">✗ Cadena alterada</span>')+'</div>';c.slice().reverse().forEach(b=>{const d=b.datos;html+='<div class="card"><div class="row"><b>'+d.titulo+'</b><span class="muted">#'+b.indice+' · '+d.tipo+'</span></div>'+(d.precio?'<div class="precio-sec">'+fmtARS(d.precio)+'</div>':'')+'<div class="muted" style="font-size:12px;margin-top:6px">'+new Date(b.fecha).toLocaleString("es-AR")+'</div><div class="hashline" style="margin-top:8px">hash: '+b.hash.slice(0,32)+'…</div></div>';});out.innerHTML=html;}
+$("btnExport").onclick=()=>{const blob=new Blob([JSON.stringify(leerCadena(),null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="radarusados-memoria.json";a.click();};
+
+function pill(n){const x=String(n||"").toLowerCase();const c=x.includes("alta")?"alta":x.includes("baja")?"baja":"media";return '<span class="pill '+c+'">Demanda '+n+'</span>';}
+function flecha(s){const x=String(s||"").toLowerCase();if(x.includes("alza"))return '<span style="color:var(--verde)">▲ alza</span>';if(x.includes("baja"))return '<span style="color:var(--rojo)">▼ baja</span>';return '<span style="color:var(--gris)">■ estable</span>';}
+
+$("btnCotizar").onclick=async()=>{const f={marca:$("marca").value,modelo:$("modelo").value,version:$("version").value.trim(),anio:$("anio").value.trim(),km:$("km").value.trim(),estado:$("estado").value};$("cotErr").style.display="none";$("cotOut").innerHTML="";if(!f.anio){$("cotErr").textContent="Indicá al menos el año.";$("cotErr").style.display="block";return;}$("cotLoad").style.display="flex";$("btnCotizar").disabled=true;try{const prompt=`Sos un analista experto del mercado de autos usados de Córdoba, Argentina. Buscá en la web publicaciones reales y vigentes (MercadoLibre Argentina, DeAutos, Autocosmos, concesionarias de Córdoba) de este vehículo y cotizalo según el contexto de precios y cambiario actual de Argentina:
+${f.marca} ${f.modelo} ${f.version} ${f.anio}, ${f.km||"km promedio"} km, estado ${f.estado}.
+Respondé SOLO con un objeto JSON válido, sin texto antes ni después, sin markdown. Estructura exacta:
+{"precio_sugerido_ars":numero,"rango_min_ars":numero,"rango_max_ars":numero,"precio_usd_aprox":numero,"demanda":"alta|media|baja","analisis":"2 oraciones sobre este modelo en el mercado cordobés hoy","comparables":[hasta 3 {"descripcion":"breve","precio_ars":numero,"fuente":"sitio"}],"estrategia":["3 recomendaciones breves de venta"],"dias_estimados_venta":"ej 20-30"}`;const r=await pedirIA(prompt,true);renderCot(r);if(!r._texto&&r.precio_sugerido_ars)await agregarBloque({tipo:"cotización",titulo:`${f.marca} ${f.modelo} ${f.anio}`,precio:r.precio_sugerido_ars});}catch(e){$("cotErr").textContent="No se pudo cotizar ("+(e.message||"error")+").";$("cotErr").style.display="block";}finally{$("cotLoad").style.display="none";$("btnCotizar").disabled=false;}};
+function renderCot(r){const out=$("cotOut");if(r._texto){out.innerHTML='<div class="card"><div class="kicker">Análisis</div><p style="line-height:1.6;font-size:14px;white-space:pre-wrap;margin:0">'+r._texto+'</p></div>';return;}let pos=50;if(r.rango_max_ars>r.rango_min_ars)pos=Math.min(98,Math.max(2,((r.precio_sugerido_ars-r.rango_min_ars)/(r.rango_max_ars-r.rango_min_ars))*100));let html='<div class="card"><div class="kicker">Precio competitivo sugerido</div><div class="precio">'+fmtARS(r.precio_sugerido_ars)+'</div><div class="precio-sec">≈ USD '+Number(r.precio_usd_aprox).toLocaleString("es-AR")+' · venta estimada en '+r.dias_estimados_venta+'</div><div class="banda"><div class="banda-fill"></div><div class="aguja" style="left:'+pos+'%"></div></div><div class="leyenda"><span>piso '+fmtARS(r.rango_min_ars)+'</span><span>techo '+fmtARS(r.rango_max_ars)+'</span></div><p style="margin-top:14px;line-height:1.6;font-size:14px">'+pill(r.demanda)+' <span style="margin-left:6px">'+r.analisis+'</span></p></div>';if(Array.isArray(r.comparables)&&r.comparables.length){html+='<div class="card"><div class="kicker">Publicaciones comparables</div>';r.comparables.forEach(c=>html+='<div class="item"><b>'+fmtARS(c.precio_ars)+'</b> — '+c.descripcion+' <span class="fuente">('+c.fuente+')</span></div>');html+='</div>';}if(Array.isArray(r.estrategia)){html+='<div class="card"><div class="kicker">Estrategia de venta</div>';r.estrategia.forEach(e=>html+='<div class="item">'+e+'</div>');html+='</div>';}out.innerHTML=html;}
+
+$("btnRadar").onclick=async()=>{$("radErr").style.display="none";$("radOut").innerHTML="";$("radLoad").style.display="flex";$("btnRadar").disabled=true;try{const prompt=`Sos un analista del mercado automotor de usados en Córdoba, Argentina. Buscá en la web noticias recientes del sector (ACARA, patentamientos, transferencias) y tendencias de demanda.
+Respondé SOLO con un objeto JSON válido, sin texto antes ni después, sin markdown. Estructura exacta:
+{"resumen":"2 oraciones del estado del mercado de usados en Córdoba","tendencias":[3 items {"titulo":"corto","detalle":"1 oración","senal":"alza|baja|estable"}],"modelos_demandados":[4 items {"modelo":"marca y modelo","demanda":"alta|media|baja","nota":"breve"}],"oportunidades":["3 oportunidades agregadas para una agencia de usados en Córdoba"]}`;const r=await pedirIA(prompt,true);renderRad(r);$("radarHora").innerHTML=" Actualizado "+new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"})+" hs.";if(!r._texto)await agregarBloque({tipo:"radar",titulo:"Radar de mercado"});}catch(e){$("radErr").textContent="No se pudo actualizar ("+(e.message||"error")+").";$("radErr").style.display="block";}finally{$("radLoad").style.display="none";$("btnRadar").disabled=false;}};
+function renderRad(r){const out=$("radOut");if(r._texto){out.innerHTML='<div class="card"><div class="kicker">Estado del mercado</div><p style="line-height:1.65;font-size:15px;margin:0">'+r.resumen+'</p></div>';return;}let html='<div class="card"><div class="kicker">Estado del mercado</div><p style="line-height:1.65;font-size:15px;margin:0">'+r.resumen+'</p></div>';if(Array.isArray(r.tendencias)){html+='<div class="card"><div class="kicker">Tendencias</div>';r.tendencias.forEach(t=>html+='<div class="item"><b>'+t.titulo+'</b> · '+flecha(t.senal)+'<div class="muted">'+t.detalle+'</div></div>');html+='</div>';}if(Array.isArray(r.modelos_demandados)){html+='<div class="card"><div class="kicker">Modelos con más movimiento</div>';r.modelos_demandados.forEach(m=>html+='<div class="item"><b>'+m.modelo+'</b> '+pill(m.demanda)+'<div class="muted">'+m.nota+'</div></div>');html+='</div>';}if(Array.isArray(r.oportunidades)){html+='<div class="card"><div class="kicker">Oportunidades</div>';r.oportunidades.forEach(o=>html+='<div class="item">'+o+'</div>');html+='</div>';}out.innerHTML=html;}
+
+$("btnSeg").onclick=async()=>{const f={marca:$("sMarca").value,modelo:$("sModelo").value,anio:$("sAnio").value.trim(),precio:$("sPrecio").value.trim()};$("segErr").style.display="none";$("segOut").innerHTML="";if(!f.anio){$("segErr").textContent="Indicá el año.";$("segErr").style.display="block";return;}$("segLoad").style.display="flex";$("btnSeg").disabled=true;try{const prompt=`Sos un experto en marketing automotor en Córdoba, Argentina. Para este vehículo a la venta: ${f.marca} ${f.modelo} ${f.anio}${f.precio?", precio "+f.precio+" ARS":""}.
+Buscá en la web demanda y comportamiento de compradores de este tipo de auto en Córdoba/Argentina, de forma AGREGADA y anónima (no individualices personas).
+Definí el segmento de comprador ideal y cómo llegarle con la publicación correcta.
+Respondé SOLO con un objeto JSON válido, sin texto antes ni después, sin markdown. Estructura exacta:
+{"perfil":"quién es el comprador típico, 2 oraciones","valora":["3 cosas que más valora este segmento"],"rango_precio_paga":"qué rango paga","canales":["2-3 canales donde publicar"],"momento":"mejor día y horario para publicar y por qué","titulo_publicacion":"título atractivo","texto_publicacion":"texto de 4-6 líneas listo para copiar, optimizado para este segmento"}`;const r=await pedirIA(prompt,true);renderSeg(r);if(!r._texto)await agregarBloque({tipo:"segmento",titulo:`Segmento ${f.marca} ${f.modelo} ${f.anio}`});}catch(e){$("segErr").textContent="No se pudo generar ("+(e.message||"error")+").";$("segErr").style.display="block";}finally{$("segLoad").style.display="none";$("btnSeg").disabled=false;}};
+function renderSeg(r){const out=$("segOut");if(r._texto){out.innerHTML='<div class="card"><div class="kicker">Estrategia</div><p style="line-height:1.6;font-size:14px;white-space:pre-wrap;margin:0">'+r._texto+'</p></div>';return;}let html='<div class="card"><div class="kicker">Segmento de comprador</div><p style="line-height:1.6;font-size:15px;margin:0 0 10px">'+r.perfil+'</p>';if(Array.isArray(r.valora)){html+='<div class="kicker" style="margin-top:8px">Qué valora</div>';r.valora.forEach(v=>html+='<div class="item">'+v+'</div>');}html+='</div>';html+='<div class="card"><div class="kicker">Cómo y cuándo llegarle</div><div class="item"><b>Rango que paga:</b> '+(r.rango_precio_paga||"-")+ '</div><div class="item"><b>Dónde publicar:</b> '+(Array.isArray(r.canales)?r.canales.join(", "):r.canales||"-")+ '</div><div class="item"><b>Cuándo:</b> '+(r.momento||"-")+ '</div></div>';html+='<div class="card"><div class="row"><div class="kicker" style="margin:0">Publicación lista para copiar</div><button class="mini" onclick="copiarPub(event)">Copiar</button></div><div class="copia" id="pubTexto"><b>'+(r.titulo_publicacion||"")+'</b>\n\n'+(r.texto_publicacion||"")+'</div></div>';out.innerHTML=html;}
+function copiarPub(ev){const t=$("pubTexto");navigator.clipboard.writeText(t.innerText).then(()=>{const b=ev.target;b.textContent="✓ Copiado";setTimeout(()=>b.textContent="Copiar",1500);});}
+</script>
 </body>
 </html>
