@@ -1,361 +1,75 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>RadarUsados · Córdoba</title>
-<script src="https://js.puter.com/v2/"></script>
-<style>
-  :root {
-    --asfalto:#15191e; --panel:#1d232a; --linea:#2c343d; --tiza:#e8e6e0;
-    --gris:#8d97a1; --ambar:#f0a429; --celeste:#6db3d4; --verde:#7fc97f; --rojo:#e06c5f;
-  }
-  * { box-sizing:border-box; }
-  body {
-    margin:0; min-height:100vh; background:var(--asfalto); color:var(--tiza);
-    font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased;
-  }
-  .wrap { max-width:1000px; margin:0 auto; padding:0 18px 64px; }
-  header { padding:26px 0 16px; border-bottom:1px solid var(--linea); }
-  .logo { font-size:25px; font-weight:800; letter-spacing:-.5px; }
-  .logo span { color:var(--ambar); }
-  .sub { color:var(--gris); font-size:13px; margin-top:4px; }
-  .tabs { display:flex; gap:8px; margin:20px 0; flex-wrap:wrap; }
-  .tab { background:none; border:1px solid var(--linea); color:var(--gris);
-    padding:9px 18px; border-radius:999px; font-size:14px; cursor:pointer; }
-  .tab.on { background:var(--ambar); border-color:var(--ambar); color:#15191e; font-weight:700; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
-  label.l { display:block; font-size:12px; color:var(--gris); margin-bottom:5px;
-    text-transform:uppercase; letter-spacing:.08em; }
-  input,select { width:100%; background:var(--panel); border:1px solid var(--linea);
-    color:var(--tiza); padding:10px 12px; border-radius:8px; font-size:15px; }
-  .btn { margin-top:16px; background:var(--ambar); color:#15191e; border:none;
-    padding:12px 26px; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; }
-  .btn:disabled { opacity:.55; cursor:wait; }
-  .card { background:var(--panel); border:1px solid var(--linea); border-radius:12px;
-    padding:18px 20px; margin-top:16px; }
-  .kicker { font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--gris); margin-bottom:8px; }
-  .precio { font-family:ui-monospace,Menlo,monospace; font-size:33px; font-weight:700; color:var(--ambar); }
-  .precio-sec { font-family:ui-monospace,monospace; color:var(--celeste); font-size:15px; margin-top:2px; }
-  .banda { position:relative; height:10px; background:var(--linea); border-radius:999px; margin:22px 0 6px; }
-  .banda-fill { position:absolute; top:0; bottom:0; left:0; right:0;
-    background:linear-gradient(90deg,var(--celeste),var(--ambar)); border-radius:999px; opacity:.85; }
-  .aguja { position:absolute; top:-5px; width:4px; height:20px; background:var(--tiza); border-radius:2px; }
-  .leyenda { display:flex; justify-content:space-between; font-family:ui-monospace,monospace; font-size:12px; color:var(--gris); }
-  .pill { display:inline-block; font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px; }
-  .alta { background:rgba(127,201,127,.15); color:var(--verde); }
-  .media { background:rgba(240,164,41,.15); color:var(--ambar); }
-  .baja { background:rgba(224,108,95,.15); color:var(--rojo); }
-  .item { padding:10px 0; border-bottom:1px solid var(--linea); font-size:14px; line-height:1.5; }
-  .item:last-child { border-bottom:none; }
-  .item b { color:var(--tiza); }
-  .muted { color:var(--gris); }
-  .err { color:var(--rojo); margin-top:14px; font-size:14px; }
-  .load { display:flex; align-items:center; gap:10px; margin-top:18px; color:var(--gris); font-size:14px; }
-  .dot { width:9px; height:9px; border-radius:50%; background:var(--ambar); animation:late 1s infinite alternate; }
-  @keyframes late { from{opacity:.25} to{opacity:1} }
-  .fuente { font-size:12px; color:var(--gris); }
-  .hashline { font-family:ui-monospace,monospace; font-size:11px; color:var(--gris); word-break:break-all; }
-  .row { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
-  .mini { font-size:13px; color:var(--celeste); background:none; border:1px solid var(--linea);
-    padding:6px 12px; border-radius:7px; cursor:pointer; }
-
-  /* ==================== MEJORAS MÓVIL ==================== */
-  @media (max-width: 600px) {
-    .wrap {
-      padding: 0 12px 40px;
-    }
-    .grid {
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-    input, select {
-      font-size: 16px;
-      padding: 12px 14px;
-    }
-    .btn {
-      padding: 14px 20px;
-      font-size: 16px;
-      width: 100%;
-    }
-    .precio {
-      font-size: 28px;
-    }
-    .tab {
-      padding: 8px 14px;
-      font-size: 13px;
-    }
-    .leyenda {
-      font-size: 11px;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-    .item {
-      font-size: 13px;
-    }
-    .kicker {
-      font-size: 10px;
-    }
-    .card {
-      padding: 14px 16px;
-    }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RadarUsados · Córdoba</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo">Radar<span>Usados</span></div>
-    <div class="sub">Inteligencia de mercado para agencias · Córdoba, Argentina · funciona sin registro</div>
-  </header>
+  <div class="wrap">
+    <header>
+      <div class="logo">Radar<span>Usados</span></div>
+      <div class="sub">Inteligencia de mercado para agencias · Córdoba, Argentina</div>
+    </header>
 
-  <nav class="tabs">
-    <button class="tab on" data-tab="cotizar">Cotizador</button>
-    <button class="tab" data-tab="radar">Radar de tendencias</button>
-    <button class="tab" data-tab="memoria">Memoria</button>
-  </nav>
+    <nav class="tabs">
+      <button class="tab on" data-tab="cotizar">Cotizador</button>
+      <button class="tab" data-tab="radar">Radar</button>
+      <button class="tab" data-tab="memoria">Memoria</button>
+    </nav>
 
-  <!-- COTIZADOR -->
-  <section id="cotizar">
-    <div class="card">
-      <div class="kicker">Vehículo a cotizar</div>
-      <div class="grid">
-        <div><label class="l">Marca</label><input id="marca" placeholder="Toyota" /></div>
-        <div><label class="l">Modelo</label><input id="modelo" placeholder="Hilux" /></div>
-        <div><label class="l">Versión (opcional)</label><input id="version" placeholder="SRX 4x4" /></div>
-        <div><label class="l">Año</label><input id="anio" placeholder="2021" inputmode="numeric" /></div>
-        <div><label class="l">Kilometraje</label><input id="km" placeholder="80000" inputmode="numeric" /></div>
-        <div><label class="l">Estado</label>
-          <select id="estado">
-            <option>Excelente</option><option selected>Muy bueno</option><option>Bueno</option><option>Regular</option>
-          </select></div>
+    <!-- COTIZADOR -->
+    <section id="cotizar">
+      <div class="card">
+        <div class="kicker">Vehículo a cotizar</div>
+        <div class="grid">
+          <div><label class="l">Marca</label><input id="marca" placeholder="Toyota"></div>
+          <div><label class="l">Modelo</label><input id="modelo" placeholder="Hilux"></div>
+          <div><label class="l">Versión</label><input id="version" placeholder="SRX 4x4"></div>
+          <div><label class="l">Año</label><input id="anio" placeholder="2021" inputmode="numeric"></div>
+          <div><label class="l">Kilometraje</label><input id="km" placeholder="80000" inputmode="numeric"></div>
+          <div><label class="l">Estado</label>
+            <select id="estado">
+              <option>Excelente</option>
+              <option selected>Muy bueno</option>
+              <option>Bueno</option>
+              <option>Regular</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" id="btnCotizar">Cotizar</button>
+        <div id="cotErr" class="err" style="display:none"></div>
+        <div id="cotLoad" class="load" style="display:none"><div class="dot"></div> Analizando mercado cordobés…</div>
       </div>
-      <button class="btn" id="btnCotizar">Cotizar</button>
-      <div id="cotErr" class="err" style="display:none"></div>
-      <div id="cotLoad" class="load" style="display:none"><div class="dot"></div> Analizando el mercado cordobés…</div>
-    </div>
-    <div id="cotOut"></div>
-  </section>
+      <div id="cotOut"></div>
+    </section>
 
-  <!-- RADAR -->
-  <section id="radar" style="display:none">
-    <div class="card">
-      <div class="kicker">Radar de mercado — Córdoba</div>
-      <p class="muted" style="font-size:14px;line-height:1.6;margin:4px 0 0">
-        Analiza el estado del mercado de usados: tendencias, modelos con más movimiento y oportunidades.
-        <span id="radarHora"></span>
-      </p>
-      <button class="btn" id="btnRadar">Activar radar</button>
-      <div id="radErr" class="err" style="display:none"></div>
-      <div id="radLoad" class="load" style="display:none"><div class="dot"></div> Relevando el sector automotor…</div>
-    </div>
-    <div id="radOut"></div>
-  </section>
-
-  <!-- MEMORIA -->
-  <section id="memoria" style="display:none">
-    <div class="card">
-      <div class="row">
-        <div class="kicker" style="margin:0">Memoria encadenada · historial de cotizaciones</div>
-        <button class="mini" id="btnExport">Exportar</button>
+    <!-- RADAR -->
+    <section id="radar" style="display:none">
+      <div class="card">
+        <div class="kicker">Radar de mercado — Córdoba</div>
+        <button class="btn" id="btnRadar">Activar Radar</button>
+        <div id="radErr" class="err" style="display:none"></div>
+        <div id="radLoad" class="load" style="display:none"><div class="dot"></div> Relevando sector…</div>
       </div>
-      <p class="muted" style="font-size:13px;line-height:1.55;margin:10px 0 0">
-        Cada cotización se guarda en este dispositivo encadenada a la anterior por un hash, al estilo blockchain.
-        Si una se altera, la cadena lo delata.
-      </p>
-    </div>
-    <div id="memOut"></div>
-  </section>
-</div>
+      <div id="radOut"></div>
+    </section>
 
-<script>
-// ====================== NÚCLEO ======================
-const $ = (id) => document.getElementById(id);
-const fmtARS = (n) => typeof n === "number" ? "$ " + n.toLocaleString("es-AR") : n;
+    <!-- MEMORIA -->
+    <section id="memoria" style="display:none">
+      <div class="card">
+        <div class="row">
+          <div class="kicker" style="margin:0">Memoria encadenada</div>
+          <button class="mini" id="btnExport">Exportar</button>
+        </div>
+        <div id="memOut"></div>
+      </div>
+    </section>
+  </div>
 
-// ---------- Navegación de pestañas ----------
-document.querySelectorAll(".tab").forEach(t => {
-  t.onclick = () => {
-    document.querySelectorAll(".tab").forEach(x => x.classList.remove("on"));
-    t.classList.add("on");
-    ["cotizar","radar","memoria"].forEach(s => $(s).style.display = "none");
-    $(t.dataset.tab).style.display = "block";
-    if (t.dataset.tab === "memoria") renderMemoria();
-  };
-});
-
-// ---------- Llamada a la IA vía Puter (gratis, sin registro) ----------
-async function pedirIA(prompt) {
-  if (!window.puter || !puter.ai) throw new Error("No cargó el motor de IA. Revisá tu conexión y recargá.");
-  const resp = await puter.ai.chat(prompt, { model: "gpt-4o-mini" });
-  const texto = (resp && resp.message && resp.message.content) ? resp.message.content
-    : (typeof resp === "string" ? resp : JSON.stringify(resp));
-  const limpio = String(texto).replace(/```json|```/g, "").trim();
-  const ini = limpio.indexOf("{"), fin = limpio.lastIndexOf("}");
-  if (ini === -1 || fin === -1) return { _texto: limpio };
-  try { return JSON.parse(limpio.slice(ini, fin + 1)); }
-  catch (e) { return { _texto: limpio.replace(/[{}\[]"]/g, " ").replace(/\s+/g, " ").trim() }; }
-}
-
-// ====================== MEMORIA ENCADENADA (estilo blockchain) ======================
-const MEM_KEY = "radarusados_cadena_v1";
-
-async function sha256(txt) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
-}
-function leerCadena() {
-  try { return JSON.parse(localStorage.getItem(MEM_KEY)) || []; }
-  catch (e) { return []; }
-}
-async function agregarBloque(datos) {
-  const cadena = leerCadena();
-  const prev = cadena.length ? cadena[cadena.length-1].hash : "GENESIS";
-  const bloque = { indice: cadena.length, fecha: new Date().toISOString(), prev, datos };
-  bloque.hash = await sha256(JSON.stringify({ i:bloque.indice, f:bloque.fecha, p:prev, d:datos }));
-  cadena.push(bloque);
-  localStorage.setItem(MEM_KEY, JSON.stringify(cadena));
-}
-async function verificarCadena() {
-  const c = leerCadena();
-  for (let i=0;i<c.length;i++){
-    const b=c[i];
-    const h=await sha256(JSON.stringify({ i:b.indice, f:b.fecha, p:b.prev, d:b.datos }));
-    if (h!==b.hash) return false;
-    if (i>0 && b.prev!==c[i-1].hash) return false;
-  }
-  return true;
-}
-
-async function renderMemoria() {
-  const out = $("memOut");
-  const c = leerCadena();
-  if (!c.length) { out.innerHTML = '<div class="card muted">Todavía no hay cotizaciones guardadas.</div>'; return; }
-  const intacta = await verificarCadena();
-  let html = '<div class="card"><div class="kicker">Integridad</div>' +
-    (intacta ? '<span class="pill alta">✓ Cadena íntegra</span>' : '<span class="pill baja">✗ Cadena alterada</span>') +
-    '</div>';
-  c.slice().reverse().forEach(b => {
-    const d = b.datos;
-    html += '<div class="card"><div class="row"><b>'+d.titulo+'</b><span class="muted">#'+b.indice+'</span></div>' +
-      '<div class="precio-sec">'+fmtARS(d.precio)+'</div>' +
-      '<div class="muted" style="font-size:12px;margin-top:6px">'+new Date(b.fecha).toLocaleString("es-AR")+'</div>' +
-      '<div class="hashline" style="margin-top:8px">hash: '+b.hash.slice(0,32)+'…</div></div>';
-  });
-  out.innerHTML = html;
-}
-
-$("btnExport").onclick = () => {
-  const blob = new Blob([JSON.stringify(leerCadena(),null,2)], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "radarusados-memoria.json";
-  a.click();
-};
-
-// ====================== COTIZADOR ======================
-$("btnCotizar").onclick = async () => {
-  const f = {
-    marca:$("marca").value.trim(), modelo:$("modelo").value.trim(),
-    version:$("version").value.trim(), anio:$("anio").value.trim(),
-    km:$("km").value.trim(), estado:$("estado").value
-  };
-  $("cotErr").style.display="none"; $("cotOut").innerHTML="";
-  if (!f.marca || !f.modelo || !f.anio) {
-    $("cotErr").textContent="Completá al menos marca, modelo y año."; $("cotErr").style.display="block"; return;
-  }
-  $("cotLoad").style.display="flex"; $("btnCotizar").disabled=true;
-  try {
-    const prompt = `Sos un analista experto del mercado de autos usados de Córdoba, Argentina. Cotizá este vehículo considerando el contexto de precios y cambiario actual de Argentina:
-${f.marca} ${f.modelo} ${f.version} ${f.anio}, ${f.km||"km promedio"} km, estado ${f.estado}.
-Respondé SOLO con un objeto JSON válido, sin texto antes ni después, sin markdown. Sé breve. Estructura exacta:
-{"precio_sugerido_ars":numero,"rango_min_ars":numero,"rango_max_ars":numero,"precio_usd_aprox":numero,"demanda":"alta|media|baja","analisis":"2 oraciones sobre este modelo en el mercado cordobés","estrategia":["3 recomendaciones breves de venta para una agencia en Córdoba"],"dias_estimados_venta":"ej 20-30"}`;
-    const r = await pedirIA(prompt);
-    renderCotizacion(r, f);
-    if (!r._texto && r.precio_sugerido_ars) {
-      await agregarBloque({ titulo:`${f.marca} ${f.modelo} ${f.anio}`, precio:r.precio_sugerido_ars });
-    }
-  } catch (e) {
-    $("cotErr").textContent="No se pudo cotizar ("+(e.message||"error")+"). Probá de nuevo.";
-    $("cotErr").style.display="block";
-  } finally {
-    $("cotLoad").style.display="none"; $("btnCotizar").disabled=false;
-  }
-};
-
-function pill(nivel){
-  const n=String(nivel||"").toLowerCase();
-  const c=n.includes("alta")?"alta":n.includes("baja")?"baja":"media";
-  return '<span class="pill '+c+'">Demanda '+nivel+'</span>';
-}
-
-function renderCotizacion(r, f) {
-  const out = $("cotOut");
-  if (r._texto) { out.innerHTML='<div class="card"><div class="kicker">Análisis</div><p style="line-height:1.6;font-size:14px;white-space:pre-wrap;margin:0">'+r._texto+'</p></div>'; return; }
-  let pos = 50;
-  if (r.rango_max_ars > r.rango_min_ars)
-    pos = Math.min(98, Math.max(2, ((r.precio_sugerido_ars-r.rango_min_ars)/(r.rango_max_ars-r.rango_min_ars))*100));
-  let html = '<div class="card"><div class="kicker">Precio competitivo sugerido</div>' +
-    '<div class="precio">'+fmtARS(r.precio_sugerido_ars)+'</div>' +
-    '<div class="precio-sec">≈ USD '+Number(r.precio_usd_aprox).toLocaleString("es-AR")+' · venta estimada en '+r.dias_estimados_venta+'</div>' +
-    '<div class="banda"><div class="banda-fill"></div><div class="aguja" style="left:'+pos+'%"></div></div>' +
-    '<div class="leyenda"><span>piso '+fmtARS(r.rango_min_ars)+'</span><span>techo '+fmtARS(r.rango_max_ars)+'</span></div>' +
-    '<p style="margin-top:14px;line-height:1.6;font-size:14px">'+pill(r.demanda)+' <span style="margin-left:6px">'+r.analisis+'</span></p></div>';
-  if (Array.isArray(r.estrategia)) {
-    html += '<div class="card"><div class="kicker">Estrategia de venta</div>';
-    r.estrategia.forEach(e => html += '<div class="item">'+e+'</div>');
-    html += '</div>';
-  }
-  out.innerHTML = html;
-}
-
-// ====================== RADAR ======================
-$("btnRadar").onclick = async () => {
-  $("radErr").style.display="none"; $("radOut").innerHTML="";
-  $("radLoad").style.display="flex"; $("btnRadar").disabled=true;
-  try {
-    const prompt = `Sos un analista del mercado automotor de usados en Córdoba, Argentina. Analizá el estado actual del mercado.
-Respondé SOLO con un objeto JSON válido, sin texto antes ni después, sin markdown. Sé breve. Estructura exacta:
-{"resumen":"2 oraciones del estado del mercado de usados en Córdoba","tendencias":[3 items {"titulo":"corto","detalle":"1 oración","senal":"alza|baja|estable"}],"modelos_demandados":[4 items {"modelo":"marca y modelo","demanda":"alta|media|baja","nota":"breve"}],"oportunidades":["3 oportunidades breves para una agencia de usados en Córdoba"]}`;
-    const r = await pedirIA(prompt);
-    renderRadar(r);
-    $("radarHora").innerHTML = " Última actualización: <b style='color:var(--tiza)'>"+new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"})+" hs</b>.";
-  } catch (e) {
-    $("radErr").textContent="No se pudo actualizar ("+(e.message||"error")+"). Probá de nuevo.";
-    $("radErr").style.display="block";
-  } finally {
-    $("radLoad").style.display="none"; $("btnRadar").disabled=false;
-  }
-};
-
-function flecha(s){
-  const x=String(s||"").toLowerCase();
-  if(x.includes("alza"))return '<span style="color:var(--verde)">▲ alza</span>';
-  if(x.includes("baja"))return '<span style="color:var(--rojo)">▼ baja</span>';
-  return '<span style="color:var(--gris)">■ estable</span>';
-}
-
-function renderRadar(r) {
-  const out = $("radOut");
-  if (r._texto) { out.innerHTML='<div class="card"><div class="kicker">Estado del mercado</div><p style="line-height:1.6;font-size:14px;white-space:pre-wrap;margin:0">'+r._texto+'</p></div>'; return; }
-  let html = '<div class="card"><div class="kicker">Estado del mercado</div><p style="line-height:1.65;font-size:15px;margin:0">'+r.resumen+'</p></div>';
-  if (Array.isArray(r.tendencias)) {
-    html += '<div class="card"><div class="kicker">Tendencias detectadas</div>';
-    r.tendencias.forEach(t => html += '<div class="item"><b>'+t.titulo+'</b> · '+flecha(t.senal)+'<div class="muted">'+t.detalle+'</div></div>');
-    html += '</div>';
-  }
-  if (Array.isArray(r.modelos_demandados)) {
-    html += '<div class="card"><div class="kicker">Modelos con más movimiento</div>';
-    r.modelos_demandados.forEach(m => html += '<div class="item"><b>'+m.modelo+'</b> '+pill(m.demanda)+'<div class="muted">'+m.nota+'</div></div>');
-    html += '</div>';
-  }
-  if (Array.isArray(r.oportunidades)) {
-    html += '<div class="card"><div class="kicker">Oportunidades</div>';
-    r.oportunidades.forEach(o => html += '<div class="item">'+o+'</div>');
-    html += '</div>';
-  }
-  out.innerHTML = html;
-}
-</script>
+  <script src="js/memory.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
